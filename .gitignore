@@ -29,3 +29,4 @@ __pycache__/
 .ops/
 *.zip
 .env
+app/.venv
