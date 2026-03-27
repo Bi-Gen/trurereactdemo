@@ -23,10 +23,10 @@ const Index = () => {
               </p>
 
               <ul className="space-y-3 text-base text-foreground">
-                <li>✅ Implement a Todo list</li>
-                <li>📒 Implement an Address book</li>
-                <li>⏱️ Implement a Pomodoro timer</li>
-                <li>🧮 Implement an Unit converter</li>
+                <li>✅ Change the home page in a Todo list</li>
+                <li>📒 Change the home page in an Address book</li>
+                <li>⏱️ Change the home page in a Pomodoro timer</li>
+                <li>🧮 Change the home page in an Unit converter</li>
               </ul>
             </div>
           </div>
