@@ -93,6 +93,9 @@ const Index = () => {
                   <Link to="/git-issue" className="text-primary hover:underline">
                     Create GitHub Issue
                   </Link>
+                  <Link to="/btc-price" className="text-primary hover:underline">
+                    BTC Price in EUR
+                  </Link>
                 </div>
               </div>
             </div>
