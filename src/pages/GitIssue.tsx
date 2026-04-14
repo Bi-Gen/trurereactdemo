@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const GitIssue = () => {
   const [title, setTitle] = useState("");
@@ -73,6 +74,17 @@ const GitIssue = () => {
             View issue
           </a>
         )}
+      </div>
+      <div className="mt-6 text-center">
+        <p className="text-sm font-medium text-muted-foreground mb-2">Quick Links:</p>
+        <div className="flex flex-col gap-2">
+          <Link to="/" className="text-primary hover:underline">
+            ← Back to Home
+          </Link>
+          <Link to="/pomodoro" className="text-primary hover:underline">
+            Pomodoro Timer
+          </Link>
+        </div>
       </div>
     </div>
   );

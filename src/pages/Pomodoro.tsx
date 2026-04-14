@@ -103,9 +103,15 @@ const Pomodoro = () => {
               </div>
 
               <div className="mt-6 text-center">
-                <Link to="/" className="text-primary hover:underline">
-                  ← Back to Todo List
-                </Link>
+                <p className="text-sm font-medium text-muted-foreground mb-2">Quick Links:</p>
+                <div className="flex flex-col gap-2">
+                  <Link to="/" className="text-primary hover:underline">
+                    ← Back to Todo List
+                  </Link>
+                  <Link to="/git-issue" className="text-primary hover:underline">
+                    Create GitHub Issue
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

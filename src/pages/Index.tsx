@@ -84,10 +84,16 @@ const Index = () => {
                 </div>
               )}
 
-              <div className="mt-6 text-center">
-                <Link to="/pomodoro" className="text-primary hover:underline">
-                  Open Pomodoro Timer →
-                </Link>
+              <div className="mt-6 space-y-2 text-center">
+                <p className="text-sm font-medium text-muted-foreground">Quick Links:</p>
+                <div className="flex flex-col gap-2">
+                  <Link to="/pomodoro" className="text-primary hover:underline">
+                    Pomodoro Timer
+                  </Link>
+                  <Link to="/git-issue" className="text-primary hover:underline">
+                    Create GitHub Issue
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
