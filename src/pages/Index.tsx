@@ -1,9 +1,30 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 const Index = () => {
+  const [todos, setTodos] = useState<{ id: number; text: string; completed: boolean }[]>([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const addTodo = () => {
+    if (inputValue.trim()) {
+      setTodos([...todos, { id: Date.now(), text: inputValue.trim(), completed: false }]);
+      setInputValue("");
+    }
+  };
+
+  const toggleTodo = (id: number) => {
+    setTodos(todos.map(todo => todo.id === id ? { ...todo, completed: !todo.completed } : todo));
+  };
+
+  const deleteTodo = (id: number) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-muted">
       <div className="w-full max-w-md px-6">
         <div className="flex flex-col items-center space-y-8">
-          {/* Logo */}
           <div className="animate-in fade-in zoom-in duration-500">
             <img
               src="/trustable.png"
@@ -12,33 +33,60 @@ const Index = () => {
             />
           </div>
 
-          {/* Welcome Card */}
           <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
             <div className="rounded-2xl border bg-card p-8 shadow-elegant">
-              <h1 className="mb-2 text-2xl font-bold text-foreground">
-                Welcome
-              </h1>
-              <p className="mb-6 text-muted-foreground">
-                Try the following prompts to start
-              </p>
+              <h1 className="mb-6 text-2xl font-bold text-foreground">Todo List</h1>
 
-              <ul className="space-y-3 text-base text-foreground">
-                <li>✅ Change the home page in a Todo list</li>
-                <li>📒 Change the home page in an Address book</li>
-                <li>⏱️ Change the home page in a Pomodoro timer</li>
-                <li>🧮 Change the home page in an Unit converter</li>
-              </ul>
+              <div className="mb-6 flex gap-2">
+                <Input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Add a new task..."
+                  className="flex-1"
+                  onKeyPress={(e) => e.key === "Enter" && addTodo()}
+                />
+                <Button onClick={addTodo}>Add</Button>
+              </div>
+
+              <div className="space-y-3">
+                {todos.length === 0 ? (
+                  <p className="text-center text-muted-foreground">No tasks yet. Add one above!</p>
+                ) : (
+                  todos.map(todo => (
+                    <div key={todo.id} className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        checked={todo.completed}
+                        onChange={() => toggleTodo(todo.id)}
+                        className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className={`flex-1 ${todo.completed ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                        {todo.text}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteTodo(todo.id)}
+                        className="h-8 w-8 text-destructive"
+                      >
+                        ✕
+                      </Button>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {todos.length > 0 && (
+                <div className="mt-6 border-t pt-4 text-center text-sm text-muted-foreground">
+                  {todos.filter(t => !t.completed).length} task{todos.filter(t => !t.completed).length !== 1 ? "s" : ""} remaining
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Info Text */}
           <p className="animate-in fade-in duration-1000 delay-300 text-center text-sm text-muted-foreground">
             Powered by Trustable
-          </p>
-
-          {/* Upcoming Features */}
-          <p className="animate-in fade-in duration-1000 delay-500 text-center text-xs text-muted-foreground/70 max-w-sm">
-            Upcoming in next releases: full support for AI, databases (SQL, NoSQL, vector), Redis and S3 with serverless backend
           </p>
         </div>
       </div>
