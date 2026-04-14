@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [todos, setTodos] = useState<{ id: number; text: string; completed: boolean }[]>([]);
@@ -82,6 +83,12 @@ const Index = () => {
                   {todos.filter(t => !t.completed).length} task{todos.filter(t => !t.completed).length !== 1 ? "s" : ""} remaining
                 </div>
               )}
+
+              <div className="mt-6 text-center">
+                <Link to="/pomodoro" className="text-primary hover:underline">
+                  Open Pomodoro Timer →
+                </Link>
+              </div>
             </div>
           </div>
 
