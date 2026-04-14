@@ -76,6 +76,9 @@ const BtcPrice = () => {
                 <div className="mt-6 border-t pt-4">
                   <div className="flex flex-col gap-2 text-center">
                     <p className="text-sm font-medium text-muted-foreground">Quick Links:</p>
+                    <Link to="/btc-history" className="text-primary hover:underline">
+                      View Price History
+                    </Link>
                     <Link to="/" className="text-primary hover:underline">
                       Back to Home
                     </Link>
