@@ -5,11 +5,12 @@ import time
 import psycopg
 
 def main(args, ctx=None):
-    cache_key = f"{ctx.REDIS_PREFIX}:btc_price_eur"
+    cache_key = None
     cache_ttl = 60
     
     try:
-        if ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
+        if ctx and hasattr(ctx, 'REDIS') and ctx.REDIS and hasattr(ctx, 'REDIS_PREFIX') and ctx.REDIS_PREFIX:
+            cache_key = f"{ctx.REDIS_PREFIX}:btc_price_eur"
             cached = ctx.REDIS.get(cache_key)
             if cached:
                 return {"success": True, "price": float(cached), "cached": True}
@@ -33,7 +34,7 @@ def main(args, ctx=None):
             data = json.loads(response.read().decode("utf-8"))
             if "bitcoin" in data and "eur" in data["bitcoin"]:
                 price = data["bitcoin"]["eur"]
-                if ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
+                if cache_key and ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
                     ctx.REDIS.setex(cache_key, cache_ttl, price)
                 if ctx and hasattr(ctx, 'POSTGRESQL') and ctx.POSTGRESQL and conn:
                     with conn.cursor() as cur:
@@ -46,7 +47,7 @@ def main(args, ctx=None):
             else:
                 return {"error": "Failed to fetch BTC price"}
     except Exception as e:
-        if ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
+        if cache_key and ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
             cached = ctx.REDIS.get(cache_key)
             if cached:
                 return {"success": True, "price": float(cached), "cached": True, "error": "Using cached value due to error"}
