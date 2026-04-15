@@ -14,6 +14,7 @@ def main(args, ctx=None):
             if cached:
                 return {"success": True, "price": float(cached), "cached": True}
         
+        conn = None
         if ctx and hasattr(ctx, 'POSTGRESQL') and ctx.POSTGRESQL:
             conn = ctx.POSTGRESQL
             with conn.cursor() as cur:
@@ -24,7 +25,7 @@ def main(args, ctx=None):
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )
                 """)
-                conn.commit()
+            conn.commit()
         
         url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
         req = urllib.request.Request(url, headers={"Accept": "application/json"})
@@ -34,13 +35,13 @@ def main(args, ctx=None):
                 price = data["bitcoin"]["eur"]
                 if ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
                     ctx.REDIS.setex(cache_key, cache_ttl, price)
-                if ctx and hasattr(ctx, 'POSTGRESQL') and ctx.POSTGRESQL:
+                if ctx and hasattr(ctx, 'POSTGRESQL') and ctx.POSTGRESQL and conn:
                     with conn.cursor() as cur:
                         cur.execute(
                             "INSERT INTO btc_prices (price) VALUES (%s)",
                             (price,)
                         )
-                        conn.commit()
+                    conn.commit()
                 return {"success": True, "price": price, "cached": False}
             else:
                 return {"error": "Failed to fetch BTC price"}
