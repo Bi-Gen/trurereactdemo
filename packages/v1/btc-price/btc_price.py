@@ -14,6 +14,18 @@ def main(args, ctx=None):
             if cached:
                 return {"success": True, "price": float(cached), "cached": True}
         
+        if ctx and hasattr(ctx, 'POSTGRESQL') and ctx.POSTGRESQL:
+            conn = ctx.POSTGRESQL
+            with conn.cursor() as cur:
+                cur.execute("""
+                    CREATE TABLE IF NOT EXISTS btc_prices (
+                        id SERIAL PRIMARY KEY,
+                        price NUMERIC(18, 8) NOT NULL,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+                conn.commit()
+        
         url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
         req = urllib.request.Request(url, headers={"Accept": "application/json"})
         with urllib.request.urlopen(req, timeout=10) as response:
@@ -23,15 +35,7 @@ def main(args, ctx=None):
                 if ctx and hasattr(ctx, 'REDIS') and ctx.REDIS:
                     ctx.REDIS.setex(cache_key, cache_ttl, price)
                 if ctx and hasattr(ctx, 'POSTGRESQL') and ctx.POSTGRESQL:
-                    conn = ctx.POSTGRESQL
                     with conn.cursor() as cur:
-                        cur.execute("""
-                            CREATE TABLE IF NOT EXISTS btc_prices (
-                                id SERIAL PRIMARY KEY,
-                                price NUMERIC(18, 8) NOT NULL,
-                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                            )
-                        """)
                         cur.execute(
                             "INSERT INTO btc_prices (price) VALUES (%s)",
                             (price,)

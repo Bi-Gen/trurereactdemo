@@ -17,11 +17,16 @@ def main(args):
   try:
     ctx = types.SimpleNamespace()
     for fn in builder: fn(args, ctx)
-    return { "body": btc_history.main(args, ctx=ctx) }
+    result = btc_history.main(args, ctx=ctx)
+    return {
+      "headers": {"Content-Type": "application/json"},
+      "body": result
+    }
   except Exception as e:
     import traceback
     traceback.print_exc()
     return {
-      "body": {"error": str(e) },
+      "headers": {"Content-Type": "application/json"},
+      "body": {"error": str(e)},
       "statusCode": 500
     }
