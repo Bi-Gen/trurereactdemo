@@ -36,7 +36,7 @@ const Index = () => {
 
           <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
             <div className="rounded-2xl border bg-card p-8 shadow-elegant">
-              <h1 className="mb-6 text-2xl font-bold text-foreground">Todo List</h1>
+              <h1 className="mb-6 text-2xl font-bold text-foreground text-center">Todo List</h1>
 
               <div className="mb-6 flex gap-2">
                 <Input
