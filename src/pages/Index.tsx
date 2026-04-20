@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Index = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-muted">
@@ -28,6 +30,21 @@ const Index = () => {
                 <li>⏱️ Change the home page in a Pomodoro timer</li>
                 <li>🧮 Change the home page in an Unit converter</li>
               </ul>
+
+              <div className="mt-6 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link to="/login" className="font-medium text-primary hover:underline">
+                    Login
+                  </Link>
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Don't have an account?{" "}
+                  <Link to="/register" className="font-medium text-primary hover:underline">
+                    Register
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
 
