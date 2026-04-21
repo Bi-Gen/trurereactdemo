@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-muted">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-muted">
       <div className="w-full max-w-md px-6">
         <div className="flex flex-col items-center space-y-8">
           <div className="animate-in fade-in zoom-in duration-500">
@@ -41,7 +41,7 @@ const Login = () => {
 
           <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
             <div className="rounded-2xl border bg-card p-8 shadow-elegant">
-              <h1 className="mb-6 text-2xl font-bold text-foreground">Login</h1>
+              <h1 className="mb-6 text-center text-2xl font-bold text-foreground">Login</h1>
               
               <div className="space-y-4">
                 <div className="space-y-2">
